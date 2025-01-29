@@ -1,6 +1,6 @@
 const QUIZ_QUESTIONS_URL = 'https:opentdb.com/api.php?amount=10&difficulty=hard&type=boolean'
 
-const fetchQuestions = async () => {
+export const fetchQuestions = async () => {
     try {
         const response = await fetch(QUIZ_QUESTIONS_URL)
 

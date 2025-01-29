@@ -11,7 +11,7 @@ function LandingPage() {
         is the ultimate trivia master.
         </p>
         <div className='btns'>
-           <NavigationButton text='Start Quiz' navigation='quiz'/>
+           <NavigationButton text='Start Quiz' navigation='quiz/:id'/>
            <NavigationButton text='Instructions' navigation='instructions'/>
         </div>
         </>
