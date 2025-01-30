@@ -1,21 +1,17 @@
-import NavigationButton from '../components/NavigationButton'
+import { Link } from 'react-router'
 
 function LandingPage() {
-    return (
-        <>
-        <h1>Welcome to TriviaMaster!</h1>
-        <p>
-        Dive into the exciting world of trivia with TriviaMaster! 
-        Challenge yourself with hundreds of questions across various categories. 
-        Test your knowledge, learn fun facts, and compete with friends to see who
-        is the ultimate trivia master.
-        </p>
-        <div className='btns'>
-           <NavigationButton text='Start Quiz' navigation='quiz/:id'/>
-           <NavigationButton text='Instructions' navigation='instructions'/>
-        </div>
-        </>
-    )
+  return (
+    <div className='container'>
+      <h1>Welcome to the Quiz Game!</h1>
+      <h3>Welcome to the Trivia Challenge!</h3>
+      <p>You will be presented with 10 True or False questions.</p>
+      <p>Can you score 5/10 or higher?</p>
+      <Link to='/quiz/0' className='btn btn-first'>
+        Start Quiz
+      </Link>
+    </div>
+  )
 }
 
 export default LandingPage

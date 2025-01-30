@@ -1,46 +1,45 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { QuizProvider, useQuizContext } from './context/QuizContext'
+import { fetchQuestions } from './services/question-service'
 import LandingPage from './pages/LandingPage'
 import QuizPage from './pages/QuizPage'
-import Instructions from './pages/Instructions'
-import { useState, useMemo, useEffect } from 'react'
-import { fetchQuestions} from './services/question-service'
-import { QuestionContext } from './context/context'
-import './App.css'
+import Result from './pages/Result'
 
-function App() {
-  const [question, setQuestion] = useState([]);
+function AppContent() {
+  const { setQuestions } = useQuizContext()
 
-    async function getQuestions() {
-        const questions = await fetchQuestions();
-        setQuestion(questions.results);
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        const fetchedQuestions = await fetchQuestions()
+        setQuestions(fetchedQuestions)
+        
+      } catch (error) {
+        console.error('Failed to load questions:', error)
+        
+      }
     }
 
-    console.log(question)
-
-    useEffect(() => {
-        getQuestions();
-    }, []);
-
-    const questionsWithId = useMemo(() => {
-        return question.map((ask, index) => ({
-            ...ask,
-            id: index + 1, // Ensuring stable keys
-        }));
-    }, [question]);
+    loadQuestions()
+  }, [setQuestions])
 
   return (
-    <>
-    <QuestionContext.Provider values ={questionsWithId}>
+    <Routes>
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/quiz/:questionId' element={<QuizPage />} />
+      <Route path='/results' element={<Result />} />
+    </Routes>
+  )
+}
+
+function App () {
+  return (
     <BrowserRouter>
-        <Routes>
-          <Route path='/' element = {<LandingPage />} />
-          <Route path='/quiz/:id' element = {<QuizPage />} />
-          <Route path='/instructions' element = {<Instructions />} />
-        </Routes>
-      </BrowserRouter>
-    </QuestionContext.Provider>
-     
-    </>
+      <QuizProvider>
+        <AppContent />
+      </QuizProvider>
+    </BrowserRouter>
   )
 }
 
